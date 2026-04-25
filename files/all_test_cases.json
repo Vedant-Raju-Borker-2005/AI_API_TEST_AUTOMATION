@@ -1,0 +1,1398 @@
+[
+  {
+    "test_case_id": "USR-P-001",
+    "description": "Create new user with valid data",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "john@example.com",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "user_id returned"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Email valid format",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-P-002",
+    "description": "Retrieve user by valid ID",
+    "api_endpoint": "/api/v1/users/{userId}",
+    "http_method": "GET",
+    "input_data": {
+      "userId": "550e8400-e29b-41d4-a716-446655440000"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "user object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "User ID exists",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-P-003",
+    "description": "Update user profile",
+    "api_endpoint": "/api/v1/users/{userId}",
+    "http_method": "PUT",
+    "input_data": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "bio": "Developer"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "updated object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "User exists, auth token",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-P-004",
+    "description": "List all users with pagination",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": 1,
+      "limit": 50
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "users array + pagination meta"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-P-005",
+    "description": "Delete user account",
+    "api_endpoint": "/api/v1/users/{userId}",
+    "http_method": "DELETE",
+    "input_data": {
+      "userId": "550e8400-e29b-41d4-a716-446655440000"
+    },
+    "expected_output": {
+      "status_code": 204,
+      "message": "No Content"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Auth token, user exists",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-P-006",
+    "description": "Bulk create users",
+    "api_endpoint": "/api/v1/users/bulk",
+    "http_method": "POST",
+    "input_data": [
+      {
+        "username": "u1",
+        "email": "e1@example.com"
+      },
+      {
+        "username": "u2",
+        "email": "e2@example.com"
+      }
+    ],
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "array of IDs"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid bulk data",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-P-007",
+    "description": "Search users by criteria",
+    "api_endpoint": "/api/v1/users/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "john",
+      "role": "admin"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "filtered users"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-P-008",
+    "description": "Export users to CSV",
+    "api_endpoint": "/api/v1/users/export",
+    "http_method": "GET",
+    "input_data": {
+      "format": "csv"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "CSV file"
+    },
+    "risk_level": "LOW",
+    "priority": "LOW",
+    "pre_conditions": "Auth required",
+    "_source_file": "user_management_positive_tests"
+  },
+  {
+    "test_case_id": "USR-N-001",
+    "description": "Create user - Missing email",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Missing email field"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Valid format",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-N-002",
+    "description": "Create user - Invalid email",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "notanemail",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid email format"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Email format validation",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-N-003",
+    "description": "Create user - Weak password",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "john@example.com",
+      "password": "123"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Password too weak"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Password policy check",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-N-004",
+    "description": "Get user - Invalid user ID",
+    "api_endpoint": "/api/v1/users/invalid",
+    "http_method": "GET",
+    "input_data": {
+      "userId": "invalid"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid ID"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid UUID format",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-N-005",
+    "description": "Get user - Non-existent ID",
+    "api_endpoint": "/api/v1/users/99999999",
+    "http_method": "GET",
+    "input_data": {
+      "userId": "99999999"
+    },
+    "expected_output": {
+      "status_code": 404,
+      "message": "Not Found"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "User doesn't exist",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-N-006",
+    "description": "Update user - Unauthorized",
+    "api_endpoint": "/api/v1/users/other-user-id",
+    "http_method": "PUT",
+    "input_data": {
+      "firstName": "Hacker"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Permission denied"
+    },
+    "risk_level": "HIGH",
+    "priority": "CRITICAL",
+    "pre_conditions": "No auth token",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-N-007",
+    "description": "Delete user - Insufficient permissions",
+    "api_endpoint": "/api/v1/users/550e8400",
+    "http_method": "DELETE",
+    "input_data": {
+      "userId": "550e8400"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Admin only"
+    },
+    "risk_level": "HIGH",
+    "priority": "CRITICAL",
+    "pre_conditions": "Admin role required",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-N-008",
+    "description": "Duplicate username",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "new@example.com",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 409,
+      "message": "Conflict",
+      "error": "Username already exists"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Unique username check",
+    "_source_file": "user_management_negative_tests"
+  },
+  {
+    "test_case_id": "USR-E-001",
+    "description": "Create user - Max length fields",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "email": "long@example.com"
+    },
+    "expected_output": {
+      "status_code": "201 or 400",
+      "message": "Created or Exceeds limit"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Length limit check",
+    "_source_file": "user_management_edge_tests"
+  },
+  {
+    "test_case_id": "USR-E-002",
+    "description": "Create user - Null values",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": null
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Required field missing"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Null check",
+    "_source_file": "user_management_edge_tests"
+  },
+  {
+    "test_case_id": "USR-E-003",
+    "description": "List users - Page 0",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": 0,
+      "limit": 50
+    },
+    "expected_output": {
+      "status_code": "400 or 200",
+      "message": "Bad Request or empty"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Pagination boundary",
+    "_source_file": "user_management_edge_tests"
+  },
+  {
+    "test_case_id": "USR-E-004",
+    "description": "List users - Negative page",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": -1,
+      "limit": 50
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid page number",
+    "_source_file": "user_management_edge_tests"
+  },
+  {
+    "test_case_id": "USR-E-005",
+    "description": "List users - Very large limit",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": 1,
+      "limit": 999999
+    },
+    "expected_output": {
+      "status_code": "200 or 400",
+      "message": "Capped results or Bad Request"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Max limit boundary",
+    "_source_file": "user_management_edge_tests"
+  },
+  {
+    "test_case_id": "AUTH-P-001",
+    "description": "Login with valid credentials",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "user@example.com",
+      "password": "Secure1!"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": {
+        "access_token": "<jwt>",
+        "refresh_token": "<jwt>"
+      }
+    },
+    "risk_level": "LOW",
+    "priority": "CRITICAL",
+    "pre_conditions": "Active user exists",
+    "_source_file": "authentication_positive_tests"
+  },
+  {
+    "test_case_id": "AUTH-P-002",
+    "description": "Refresh token - Valid",
+    "api_endpoint": "/api/v1/auth/refresh",
+    "http_method": "POST",
+    "input_data": {
+      "refresh_token": "eyJhbGc..."
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "new access_token"
+    },
+    "risk_level": "LOW",
+    "priority": "HIGH",
+    "pre_conditions": "Valid refresh token",
+    "_source_file": "authentication_positive_tests"
+  },
+  {
+    "test_case_id": "AUTH-P-003",
+    "description": "Verify token - Valid",
+    "api_endpoint": "/api/v1/auth/verify",
+    "http_method": "POST",
+    "input_data": {
+      "access_token": "eyJhbGc..."
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "user_id + valid"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid token",
+    "_source_file": "authentication_positive_tests"
+  },
+  {
+    "test_case_id": "AUTH-P-004",
+    "description": "Logout - Valid session",
+    "api_endpoint": "/api/v1/auth/logout",
+    "http_method": "POST",
+    "input_data": {
+      "access_token": "eyJhbGc..."
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "Logged out"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid token",
+    "_source_file": "authentication_positive_tests"
+  },
+  {
+    "test_case_id": "AUTH-P-005",
+    "description": "OAuth2 - Valid auth code",
+    "api_endpoint": "/api/v1/auth/oauth/callback",
+    "http_method": "POST",
+    "input_data": {
+      "code": "auth_xxx",
+      "client_id": "client_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "tokens + user"
+    },
+    "risk_level": "LOW",
+    "priority": "HIGH",
+    "pre_conditions": "Valid OAuth provider",
+    "_source_file": "authentication_positive_tests"
+  },
+  {
+    "test_case_id": "AUTH-P-006",
+    "description": "2FA - Valid code",
+    "api_endpoint": "/api/v1/auth/verify-2fa",
+    "http_method": "POST",
+    "input_data": {
+      "user_id": "usr_123",
+      "2fa_code": "123456"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "access_token"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "2FA enabled, valid code",
+    "_source_file": "authentication_positive_tests"
+  },
+  {
+    "test_case_id": "AUTH-N-001",
+    "description": "Login - Wrong password",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "user@example.com",
+      "password": "wrong"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid credentials"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "User exists",
+    "_source_file": "authentication_negative_tests"
+  },
+  {
+    "test_case_id": "AUTH-N-002",
+    "description": "Login - Non-existent user",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "fake@example.com",
+      "password": "any"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid credentials"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "User not in DB",
+    "_source_file": "authentication_negative_tests"
+  },
+  {
+    "test_case_id": "AUTH-N-003",
+    "description": "Refresh token - Expired",
+    "api_endpoint": "/api/v1/auth/refresh",
+    "http_method": "POST",
+    "input_data": {
+      "refresh_token": "old_token"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Token expired"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Token expired",
+    "_source_file": "authentication_negative_tests"
+  },
+  {
+    "test_case_id": "AUTH-N-004",
+    "description": "Token verification - Invalid signature",
+    "api_endpoint": "/api/v1/auth/verify",
+    "http_method": "POST",
+    "input_data": {
+      "access_token": "tampered_jwt"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid token"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Token tampering",
+    "_source_file": "authentication_negative_tests"
+  },
+  {
+    "test_case_id": "AUTH-N-005",
+    "description": "Missing auth header",
+    "api_endpoint": "/api/v1/protected",
+    "http_method": "GET",
+    "input_data": {
+      "Authorization": null
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Missing auth"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Protected route",
+    "_source_file": "authentication_negative_tests"
+  },
+  {
+    "test_case_id": "AUTH-N-006",
+    "description": "2FA - Wrong code",
+    "api_endpoint": "/api/v1/auth/verify-2fa",
+    "http_method": "POST",
+    "input_data": {
+      "user_id": "usr_123",
+      "2fa_code": "000000"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid 2FA"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "2FA enabled",
+    "_source_file": "authentication_negative_tests"
+  },
+  {
+    "test_case_id": "AUTH-SEC-001",
+    "description": "SQL Injection in login",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "admin'; DROP TABLE users;--",
+      "password": "x"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid email"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input validation check",
+    "_source_file": "authentication_security_tests"
+  },
+  {
+    "test_case_id": "AUTH-SEC-002",
+    "description": "XSS in login",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "user@example.com",
+      "password": "<script>alert('xss')</script>"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid input"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Script tag detection",
+    "_source_file": "authentication_security_tests"
+  },
+  {
+    "test_case_id": "AUTH-SEC-003",
+    "description": "CSRF - Missing token",
+    "api_endpoint": "/api/v1/auth/logout",
+    "http_method": "POST",
+    "input_data": {
+      "csrf_token": null
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "CSRF token missing"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "CSRF check",
+    "_source_file": "authentication_security_tests"
+  },
+  {
+    "test_case_id": "AUTH-SEC-004",
+    "description": "Brute force - Many attempts",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "scenario": "Multiple POST requests with wrong passwords"
+    },
+    "expected_output": {
+      "status_code": 429,
+      "message": "Too Many Requests",
+      "response": "After N attempts"
+    },
+    "risk_level": "HIGH",
+    "priority": "CRITICAL",
+    "pre_conditions": "Rate limit",
+    "_source_file": "authentication_security_tests"
+  },
+  {
+    "test_case_id": "PAY-P-001",
+    "description": "Create payment - Valid transaction",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 99.99,
+      "currency": "USD",
+      "card_number": "4111111111111111"
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "payment_id + status: success"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "CRITICAL",
+    "pre_conditions": "Valid card, auth required",
+    "_source_file": "payment_positive_tests"
+  },
+  {
+    "test_case_id": "PAY-P-002",
+    "description": "Refund payment - Valid",
+    "api_endpoint": "/api/v1/payments/{paymentId}/refund",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "pay_abc123",
+      "reason": "customer"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "refund_id + status: success"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Payment exists",
+    "_source_file": "payment_positive_tests"
+  },
+  {
+    "test_case_id": "PAY-P-003",
+    "description": "Get payment details",
+    "api_endpoint": "/api/v1/payments/{paymentId}",
+    "http_method": "GET",
+    "input_data": {
+      "payment_id": "pay_abc123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "payment object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Payment exists",
+    "_source_file": "payment_positive_tests"
+  },
+  {
+    "test_case_id": "PAY-P-004",
+    "description": "List payments with filters",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "GET",
+    "input_data": {
+      "status": "success",
+      "start_date": "2025-01-01"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "payments array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required",
+    "_source_file": "payment_positive_tests"
+  },
+  {
+    "test_case_id": "PAY-P-005",
+    "description": "Dispute payment",
+    "api_endpoint": "/api/v1/payments/{paymentId}/dispute",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "pay_abc123",
+      "reason": "fraud"
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "dispute_id"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Payment exists",
+    "_source_file": "payment_positive_tests"
+  },
+  {
+    "test_case_id": "PAY-N-001",
+    "description": "Invalid card number",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50.0,
+      "card_number": "1234567890123456"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid card"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Card validation",
+    "_source_file": "payment_negative_tests"
+  },
+  {
+    "test_case_id": "PAY-N-002",
+    "description": "Expired card",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50.0,
+      "exp_month": 1,
+      "exp_year": 2020
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Card expired"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Date validation",
+    "_source_file": "payment_negative_tests"
+  },
+  {
+    "test_case_id": "PAY-N-003",
+    "description": "Insufficient funds",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50000.0,
+      "card_number": "4111111111111111"
+    },
+    "expected_output": {
+      "status_code": 402,
+      "message": "Payment Required"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Bank response",
+    "_source_file": "payment_negative_tests"
+  },
+  {
+    "test_case_id": "PAY-N-004",
+    "description": "Invalid currency code",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50.0,
+      "currency": "XYZ"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid currency"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Currency list",
+    "_source_file": "payment_negative_tests"
+  },
+  {
+    "test_case_id": "PAY-N-005",
+    "description": "Refund non-existent payment",
+    "api_endpoint": "/api/v1/payments/99999/refund",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "99999"
+    },
+    "expected_output": {
+      "status_code": 404,
+      "message": "Not Found",
+      "error": "Payment not found"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Payment exists check",
+    "_source_file": "payment_negative_tests"
+  },
+  {
+    "test_case_id": "PAY-SEC-001",
+    "description": "Duplicate payment (Fraud)",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 99.99,
+      "idempotency_key": "already_used"
+    },
+    "expected_output": {
+      "status_code": 409,
+      "message": "Conflict",
+      "error": "Duplicate transaction"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Idempotency key check",
+    "_source_file": "payment_security_tests"
+  },
+  {
+    "test_case_id": "PAY-SEC-002",
+    "description": "SQL Injection in amount",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": "'; DROP TABLE payments;--",
+      "card_number": "4111111111111111"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid amount"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input sanitize",
+    "_source_file": "payment_security_tests"
+  },
+  {
+    "test_case_id": "PAY-SEC-003",
+    "description": "Unauthorized refund",
+    "api_endpoint": "/api/v1/payments/refund",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "other_user_payment"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Not allowed"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Auth check, ownership",
+    "_source_file": "payment_security_tests"
+  },
+  {
+    "test_case_id": "FILE-P-001",
+    "description": "Upload PDF file",
+    "api_endpoint": "/api/v1/files/upload",
+    "http_method": "POST",
+    "input_data": {
+      "filename": "doc.pdf",
+      "size_mb": 2
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "file_id + url"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid auth, file type",
+    "_source_file": "file_management_positive_tests"
+  },
+  {
+    "test_case_id": "FILE-P-002",
+    "description": "Download existing file",
+    "api_endpoint": "/api/v1/files/{fileId}/download",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "file_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "file contents + correct headers"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists",
+    "_source_file": "file_management_positive_tests"
+  },
+  {
+    "test_case_id": "FILE-P-003",
+    "description": "Get file metadata",
+    "api_endpoint": "/api/v1/files/{fileId}",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "file_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "metadata object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists",
+    "_source_file": "file_management_positive_tests"
+  },
+  {
+    "test_case_id": "FILE-P-004",
+    "description": "List user files",
+    "api_endpoint": "/api/v1/files",
+    "http_method": "GET",
+    "input_data": {
+      "limit": 50,
+      "offset": 0
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "files array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required",
+    "_source_file": "file_management_positive_tests"
+  },
+  {
+    "test_case_id": "FILE-P-005",
+    "description": "Delete file",
+    "api_endpoint": "/api/v1/files/{fileId}",
+    "http_method": "DELETE",
+    "input_data": {
+      "file_id": "file_123"
+    },
+    "expected_output": {
+      "status_code": 204,
+      "message": "No Content"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists, auth check",
+    "_source_file": "file_management_positive_tests"
+  },
+  {
+    "test_case_id": "FILE-P-006",
+    "description": "Share file",
+    "api_endpoint": "/api/v1/files/{fileId}/share",
+    "http_method": "POST",
+    "input_data": {
+      "file_id": "file_123",
+      "email": "user@example.com"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "share_link"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists, sharing enabled",
+    "_source_file": "file_management_positive_tests"
+  },
+  {
+    "test_case_id": "FILE-SEC-001",
+    "description": "Upload executable file (Malware)",
+    "api_endpoint": "/api/v1/files/upload",
+    "http_method": "POST",
+    "input_data": {
+      "filename": "virus.exe"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "File type not allowed"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "File type validation",
+    "_source_file": "file_management_security_tests"
+  },
+  {
+    "test_case_id": "FILE-SEC-002",
+    "description": "Path traversal attack",
+    "api_endpoint": "/api/v1/files/{fileId}",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "../../../etc/passwd"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid file ID"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input validation",
+    "_source_file": "file_management_security_tests"
+  },
+  {
+    "test_case_id": "FILE-SEC-003",
+    "description": "Unauthorized file access",
+    "api_endpoint": "/api/v1/files/{fileId}/download",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "other_user_file"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Not allowed"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Ownership check",
+    "_source_file": "file_management_security_tests"
+  },
+  {
+    "test_case_id": "SEARCH-P-001",
+    "description": "Basic search query",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "results array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Database ready",
+    "_source_file": "search_filtering_positive_tests"
+  },
+  {
+    "test_case_id": "SEARCH-P-002",
+    "description": "Search with filters",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop",
+      "category": "electronics"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "filtered results"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid filters",
+    "_source_file": "search_filtering_positive_tests"
+  },
+  {
+    "test_case_id": "SEARCH-P-003",
+    "description": "Search with sort",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop",
+      "sort": "-price"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "sorted results"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid sort field",
+    "_source_file": "search_filtering_positive_tests"
+  },
+  {
+    "test_case_id": "SEARCH-P-004",
+    "description": "Pagination search",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop",
+      "page": 2,
+      "limit": 20
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "paginated results"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid pagination",
+    "_source_file": "search_filtering_positive_tests"
+  },
+  {
+    "test_case_id": "SEARCH-SEC-001",
+    "description": "SQL Injection in search",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "'; DROP TABLE products;--"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid query"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input sanitize",
+    "_source_file": "search_security_tests"
+  },
+  {
+    "test_case_id": "SEARCH-SEC-002",
+    "description": "XSS in search filter",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "category": "<script>alert('xss')</script>"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid input"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "XSS detection",
+    "_source_file": "search_security_tests"
+  },
+  {
+    "test_case_id": "RATE-001",
+    "description": "Normal request within rate limit",
+    "api_endpoint": "/api/v1/data",
+    "http_method": "GET",
+    "input_data": {
+      "scenario": "standard request"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "rate limit headers present"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid auth",
+    "_source_file": "rate_limiting_tests"
+  },
+  {
+    "test_case_id": "RATE-002",
+    "description": "Rate limit exceeded",
+    "api_endpoint": "/api/v1/data",
+    "http_method": "GET",
+    "input_data": {
+      "scenario": "1000+ rapid requests from same IP"
+    },
+    "expected_output": {
+      "status_code": 429,
+      "message": "Too Many Requests",
+      "response": "Retry-After header"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "MEDIUM",
+    "pre_conditions": "Rate limit check",
+    "_source_file": "rate_limiting_tests"
+  },
+  {
+    "test_case_id": "RATE-003",
+    "description": "CORS preflight request",
+    "api_endpoint": "/api/v1/data",
+    "http_method": "OPTIONS",
+    "input_data": {
+      "headers": {
+        "Origin": "https://app.example.com",
+        "Access-Control-Request-Method": "POST"
+      }
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "CORS response headers"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "CORS enabled",
+    "_source_file": "rate_limiting_tests"
+  },
+  {
+    "test_case_id": "PROD-P-001",
+    "description": "Get all products",
+    "api_endpoint": "/api/v1/products",
+    "http_method": "GET",
+    "input_data": {
+      "limit": 50,
+      "offset": 0
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "products array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Products exist",
+    "_source_file": "product_catalog_positive_tests"
+  },
+  {
+    "test_case_id": "PROD-P-002",
+    "description": "Create product",
+    "api_endpoint": "/api/v1/products",
+    "http_method": "POST",
+    "input_data": {
+      "name": "Laptop",
+      "price": 999.99,
+      "stock": 50
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "product_id"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Admin auth",
+    "_source_file": "product_catalog_positive_tests"
+  },
+  {
+    "test_case_id": "PROD-P-003",
+    "description": "Update product inventory",
+    "api_endpoint": "/api/v1/products/{productId}",
+    "http_method": "PUT",
+    "input_data": {
+      "price": 899.99,
+      "stock": 30
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "updated object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Product exists",
+    "_source_file": "product_catalog_positive_tests"
+  },
+  {
+    "test_case_id": "ORDER-P-001",
+    "description": "Create order",
+    "api_endpoint": "/api/v1/orders",
+    "http_method": "POST",
+    "input_data": {
+      "items": [
+        {
+          "product_id": "prod_123",
+          "qty": 2
+        }
+      ],
+      "shipping": {
+        "address": "123 Main St",
+        "city": "New York",
+        "zip": "10001"
+      }
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "order_id + status: pending"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "CRITICAL",
+    "pre_conditions": "User auth, items in stock",
+    "_source_file": "order_management_positive_tests"
+  },
+  {
+    "test_case_id": "ORDER-P-002",
+    "description": "Get order status",
+    "api_endpoint": "/api/v1/orders/{orderId}",
+    "http_method": "GET",
+    "input_data": {
+      "order_id": "order_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "order object + tracking info"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Order exists",
+    "_source_file": "order_management_positive_tests"
+  },
+  {
+    "test_case_id": "ORDER-P-003",
+    "description": "Cancel order",
+    "api_endpoint": "/api/v1/orders/{orderId}/cancel",
+    "http_method": "DELETE",
+    "input_data": {
+      "order_id": "order_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "status: cancelled"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Order cancellable",
+    "_source_file": "order_management_positive_tests"
+  }
+]

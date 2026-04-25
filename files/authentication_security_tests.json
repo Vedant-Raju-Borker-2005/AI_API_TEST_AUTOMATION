@@ -1,0 +1,72 @@
+[
+  {
+    "test_case_id": "AUTH-SEC-001",
+    "description": "SQL Injection in login",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "admin'; DROP TABLE users;--",
+      "password": "x"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid email"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input validation check"
+  },
+  {
+    "test_case_id": "AUTH-SEC-002",
+    "description": "XSS in login",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "user@example.com",
+      "password": "<script>alert('xss')</script>"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid input"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Script tag detection"
+  },
+  {
+    "test_case_id": "AUTH-SEC-003",
+    "description": "CSRF - Missing token",
+    "api_endpoint": "/api/v1/auth/logout",
+    "http_method": "POST",
+    "input_data": {
+      "csrf_token": null
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "CSRF token missing"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "CSRF check"
+  },
+  {
+    "test_case_id": "AUTH-SEC-004",
+    "description": "Brute force - Many attempts",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "scenario": "Multiple POST requests with wrong passwords"
+    },
+    "expected_output": {
+      "status_code": 429,
+      "message": "Too Many Requests",
+      "response": "After N attempts"
+    },
+    "risk_level": "HIGH",
+    "priority": "CRITICAL",
+    "pre_conditions": "Rate limit"
+  }
+]

@@ -1,0 +1,88 @@
+[
+  {
+    "test_case_id": "USR-E-001",
+    "description": "Create user - Max length fields",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "email": "long@example.com"
+    },
+    "expected_output": {
+      "status_code": "201 or 400",
+      "message": "Created or Exceeds limit"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Length limit check"
+  },
+  {
+    "test_case_id": "USR-E-002",
+    "description": "Create user - Null values",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": null
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Required field missing"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Null check"
+  },
+  {
+    "test_case_id": "USR-E-003",
+    "description": "List users - Page 0",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": 0,
+      "limit": 50
+    },
+    "expected_output": {
+      "status_code": "400 or 200",
+      "message": "Bad Request or empty"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Pagination boundary"
+  },
+  {
+    "test_case_id": "USR-E-004",
+    "description": "List users - Negative page",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": -1,
+      "limit": 50
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid page number"
+  },
+  {
+    "test_case_id": "USR-E-005",
+    "description": "List users - Very large limit",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": 1,
+      "limit": 999999
+    },
+    "expected_output": {
+      "status_code": "200 or 400",
+      "message": "Capped results or Bad Request"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Max limit boundary"
+  }
+]

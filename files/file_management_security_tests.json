@@ -1,0 +1,53 @@
+[
+  {
+    "test_case_id": "FILE-SEC-001",
+    "description": "Upload executable file (Malware)",
+    "api_endpoint": "/api/v1/files/upload",
+    "http_method": "POST",
+    "input_data": {
+      "filename": "virus.exe"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "File type not allowed"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "File type validation"
+  },
+  {
+    "test_case_id": "FILE-SEC-002",
+    "description": "Path traversal attack",
+    "api_endpoint": "/api/v1/files/{fileId}",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "../../../etc/passwd"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid file ID"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input validation"
+  },
+  {
+    "test_case_id": "FILE-SEC-003",
+    "description": "Unauthorized file access",
+    "api_endpoint": "/api/v1/files/{fileId}/download",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "other_user_file"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Not allowed"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Ownership check"
+  }
+]

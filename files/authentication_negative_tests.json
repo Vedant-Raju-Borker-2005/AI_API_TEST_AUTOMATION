@@ -1,0 +1,107 @@
+[
+  {
+    "test_case_id": "AUTH-N-001",
+    "description": "Login - Wrong password",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "user@example.com",
+      "password": "wrong"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid credentials"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "User exists"
+  },
+  {
+    "test_case_id": "AUTH-N-002",
+    "description": "Login - Non-existent user",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "fake@example.com",
+      "password": "any"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid credentials"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "User not in DB"
+  },
+  {
+    "test_case_id": "AUTH-N-003",
+    "description": "Refresh token - Expired",
+    "api_endpoint": "/api/v1/auth/refresh",
+    "http_method": "POST",
+    "input_data": {
+      "refresh_token": "old_token"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Token expired"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Token expired"
+  },
+  {
+    "test_case_id": "AUTH-N-004",
+    "description": "Token verification - Invalid signature",
+    "api_endpoint": "/api/v1/auth/verify",
+    "http_method": "POST",
+    "input_data": {
+      "access_token": "tampered_jwt"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid token"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Token tampering"
+  },
+  {
+    "test_case_id": "AUTH-N-005",
+    "description": "Missing auth header",
+    "api_endpoint": "/api/v1/protected",
+    "http_method": "GET",
+    "input_data": {
+      "Authorization": null
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Missing auth"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Protected route"
+  },
+  {
+    "test_case_id": "AUTH-N-006",
+    "description": "2FA - Wrong code",
+    "api_endpoint": "/api/v1/auth/verify-2fa",
+    "http_method": "POST",
+    "input_data": {
+      "user_id": "usr_123",
+      "2fa_code": "000000"
+    },
+    "expected_output": {
+      "status_code": 401,
+      "message": "Unauthorized",
+      "error": "Invalid 2FA"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "2FA enabled"
+  }
+]

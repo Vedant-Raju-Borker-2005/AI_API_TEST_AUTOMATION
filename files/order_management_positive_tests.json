@@ -1,0 +1,63 @@
+[
+  {
+    "test_case_id": "ORDER-P-001",
+    "description": "Create order",
+    "api_endpoint": "/api/v1/orders",
+    "http_method": "POST",
+    "input_data": {
+      "items": [
+        {
+          "product_id": "prod_123",
+          "qty": 2
+        }
+      ],
+      "shipping": {
+        "address": "123 Main St",
+        "city": "New York",
+        "zip": "10001"
+      }
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "order_id + status: pending"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "CRITICAL",
+    "pre_conditions": "User auth, items in stock"
+  },
+  {
+    "test_case_id": "ORDER-P-002",
+    "description": "Get order status",
+    "api_endpoint": "/api/v1/orders/{orderId}",
+    "http_method": "GET",
+    "input_data": {
+      "order_id": "order_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "order object + tracking info"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Order exists"
+  },
+  {
+    "test_case_id": "ORDER-P-003",
+    "description": "Cancel order",
+    "api_endpoint": "/api/v1/orders/{orderId}/cancel",
+    "http_method": "DELETE",
+    "input_data": {
+      "order_id": "order_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "status: cancelled"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Order cancellable"
+  }
+]

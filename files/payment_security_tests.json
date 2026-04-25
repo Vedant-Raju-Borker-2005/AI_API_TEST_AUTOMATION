@@ -1,0 +1,55 @@
+[
+  {
+    "test_case_id": "PAY-SEC-001",
+    "description": "Duplicate payment (Fraud)",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 99.99,
+      "idempotency_key": "already_used"
+    },
+    "expected_output": {
+      "status_code": 409,
+      "message": "Conflict",
+      "error": "Duplicate transaction"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Idempotency key check"
+  },
+  {
+    "test_case_id": "PAY-SEC-002",
+    "description": "SQL Injection in amount",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": "'; DROP TABLE payments;--",
+      "card_number": "4111111111111111"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid amount"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input sanitize"
+  },
+  {
+    "test_case_id": "PAY-SEC-003",
+    "description": "Unauthorized refund",
+    "api_endpoint": "/api/v1/payments/refund",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "other_user_payment"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Not allowed"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Auth check, ownership"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "test_case_id": "PAY-P-001",
+    "description": "Create payment - Valid transaction",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 99.99,
+      "currency": "USD",
+      "card_number": "4111111111111111"
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "payment_id + status: success"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "CRITICAL",
+    "pre_conditions": "Valid card, auth required"
+  },
+  {
+    "test_case_id": "PAY-P-002",
+    "description": "Refund payment - Valid",
+    "api_endpoint": "/api/v1/payments/{paymentId}/refund",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "pay_abc123",
+      "reason": "customer"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "refund_id + status: success"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Payment exists"
+  },
+  {
+    "test_case_id": "PAY-P-003",
+    "description": "Get payment details",
+    "api_endpoint": "/api/v1/payments/{paymentId}",
+    "http_method": "GET",
+    "input_data": {
+      "payment_id": "pay_abc123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "payment object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Payment exists"
+  },
+  {
+    "test_case_id": "PAY-P-004",
+    "description": "List payments with filters",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "GET",
+    "input_data": {
+      "status": "success",
+      "start_date": "2025-01-01"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "payments array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required"
+  },
+  {
+    "test_case_id": "PAY-P-005",
+    "description": "Dispute payment",
+    "api_endpoint": "/api/v1/payments/{paymentId}/dispute",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "pay_abc123",
+      "reason": "fraud"
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "dispute_id"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Payment exists"
+  }
+]

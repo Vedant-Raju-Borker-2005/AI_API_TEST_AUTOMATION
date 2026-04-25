@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "description": "NexusAI API Testing Platform \u2013 comprehensive test-case suite",
+  "total_files": 16,
+  "total_test_cases": 74,
+  "domains": {
+    "user_management": 21,
+    "authentication": 16,
+    "payment_processing": 13,
+    "file_management": 9,
+    "search_filtering": 6,
+    "rate_limiting": 3,
+    "product_catalog": 3,
+    "order_management": 3
+  },
+  "files": [
+    {
+      "file": "user_management_positive_tests.json",
+      "count": 8
+    },
+    {
+      "file": "user_management_negative_tests.json",
+      "count": 8
+    },
+    {
+      "file": "user_management_edge_tests.json",
+      "count": 5
+    },
+    {
+      "file": "authentication_positive_tests.json",
+      "count": 6
+    },
+    {
+      "file": "authentication_negative_tests.json",
+      "count": 6
+    },
+    {
+      "file": "authentication_security_tests.json",
+      "count": 4
+    },
+    {
+      "file": "payment_positive_tests.json",
+      "count": 5
+    },
+    {
+      "file": "payment_negative_tests.json",
+      "count": 5
+    },
+    {
+      "file": "payment_security_tests.json",
+      "count": 3
+    },
+    {
+      "file": "file_management_positive_tests.json",
+      "count": 6
+    },
+    {
+      "file": "file_management_security_tests.json",
+      "count": 3
+    },
+    {
+      "file": "search_filtering_positive_tests.json",
+      "count": 4
+    },
+    {
+      "file": "search_security_tests.json",
+      "count": 2
+    },
+    {
+      "file": "rate_limiting_tests.json",
+      "count": 3
+    },
+    {
+      "file": "product_catalog_positive_tests.json",
+      "count": 3
+    },
+    {
+      "file": "order_management_positive_tests.json",
+      "count": 3
+    }
+  ]
+}

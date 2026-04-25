@@ -1,0 +1,144 @@
+[
+  {
+    "test_case_id": "USR-N-001",
+    "description": "Create user - Missing email",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Missing email field"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Valid format"
+  },
+  {
+    "test_case_id": "USR-N-002",
+    "description": "Create user - Invalid email",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "notanemail",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid email format"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Email format validation"
+  },
+  {
+    "test_case_id": "USR-N-003",
+    "description": "Create user - Weak password",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "john@example.com",
+      "password": "123"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Password too weak"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Password policy check"
+  },
+  {
+    "test_case_id": "USR-N-004",
+    "description": "Get user - Invalid user ID",
+    "api_endpoint": "/api/v1/users/invalid",
+    "http_method": "GET",
+    "input_data": {
+      "userId": "invalid"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid ID"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid UUID format"
+  },
+  {
+    "test_case_id": "USR-N-005",
+    "description": "Get user - Non-existent ID",
+    "api_endpoint": "/api/v1/users/99999999",
+    "http_method": "GET",
+    "input_data": {
+      "userId": "99999999"
+    },
+    "expected_output": {
+      "status_code": 404,
+      "message": "Not Found"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "User doesn't exist"
+  },
+  {
+    "test_case_id": "USR-N-006",
+    "description": "Update user - Unauthorized",
+    "api_endpoint": "/api/v1/users/other-user-id",
+    "http_method": "PUT",
+    "input_data": {
+      "firstName": "Hacker"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Permission denied"
+    },
+    "risk_level": "HIGH",
+    "priority": "CRITICAL",
+    "pre_conditions": "No auth token"
+  },
+  {
+    "test_case_id": "USR-N-007",
+    "description": "Delete user - Insufficient permissions",
+    "api_endpoint": "/api/v1/users/550e8400",
+    "http_method": "DELETE",
+    "input_data": {
+      "userId": "550e8400"
+    },
+    "expected_output": {
+      "status_code": 403,
+      "message": "Forbidden",
+      "error": "Admin only"
+    },
+    "risk_level": "HIGH",
+    "priority": "CRITICAL",
+    "pre_conditions": "Admin role required"
+  },
+  {
+    "test_case_id": "USR-N-008",
+    "description": "Duplicate username",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "new@example.com",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 409,
+      "message": "Conflict",
+      "error": "Username already exists"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Unique username check"
+  }
+]

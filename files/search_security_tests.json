@@ -1,0 +1,36 @@
+[
+  {
+    "test_case_id": "SEARCH-SEC-001",
+    "description": "SQL Injection in search",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "'; DROP TABLE products;--"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid query"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "Input sanitize"
+  },
+  {
+    "test_case_id": "SEARCH-SEC-002",
+    "description": "XSS in search filter",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "category": "<script>alert('xss')</script>"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid input"
+    },
+    "risk_level": "CRITICAL",
+    "priority": "CRITICAL",
+    "pre_conditions": "XSS detection"
+  }
+]

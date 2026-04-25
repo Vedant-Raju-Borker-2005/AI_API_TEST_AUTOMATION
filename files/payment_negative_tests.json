@@ -1,0 +1,91 @@
+[
+  {
+    "test_case_id": "PAY-N-001",
+    "description": "Invalid card number",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50.0,
+      "card_number": "1234567890123456"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid card"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Card validation"
+  },
+  {
+    "test_case_id": "PAY-N-002",
+    "description": "Expired card",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50.0,
+      "exp_month": 1,
+      "exp_year": 2020
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Card expired"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Date validation"
+  },
+  {
+    "test_case_id": "PAY-N-003",
+    "description": "Insufficient funds",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50000.0,
+      "card_number": "4111111111111111"
+    },
+    "expected_output": {
+      "status_code": 402,
+      "message": "Payment Required"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Bank response"
+  },
+  {
+    "test_case_id": "PAY-N-004",
+    "description": "Invalid currency code",
+    "api_endpoint": "/api/v1/payments",
+    "http_method": "POST",
+    "input_data": {
+      "amount": 50.0,
+      "currency": "XYZ"
+    },
+    "expected_output": {
+      "status_code": 400,
+      "message": "Bad Request",
+      "error": "Invalid currency"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Currency list"
+  },
+  {
+    "test_case_id": "PAY-N-005",
+    "description": "Refund non-existent payment",
+    "api_endpoint": "/api/v1/payments/99999/refund",
+    "http_method": "POST",
+    "input_data": {
+      "payment_id": "99999"
+    },
+    "expected_output": {
+      "status_code": 404,
+      "message": "Not Found",
+      "error": "Payment not found"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Payment exists check"
+  }
+]

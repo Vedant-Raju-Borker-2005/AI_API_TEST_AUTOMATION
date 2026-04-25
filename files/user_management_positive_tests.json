@@ -1,0 +1,150 @@
+[
+  {
+    "test_case_id": "USR-P-001",
+    "description": "Create new user with valid data",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "POST",
+    "input_data": {
+      "username": "john",
+      "email": "john@example.com",
+      "password": "SecurePass1!"
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "user_id returned"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Email valid format"
+  },
+  {
+    "test_case_id": "USR-P-002",
+    "description": "Retrieve user by valid ID",
+    "api_endpoint": "/api/v1/users/{userId}",
+    "http_method": "GET",
+    "input_data": {
+      "userId": "550e8400-e29b-41d4-a716-446655440000"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "user object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "User ID exists"
+  },
+  {
+    "test_case_id": "USR-P-003",
+    "description": "Update user profile",
+    "api_endpoint": "/api/v1/users/{userId}",
+    "http_method": "PUT",
+    "input_data": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "bio": "Developer"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "updated object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "User exists, auth token"
+  },
+  {
+    "test_case_id": "USR-P-004",
+    "description": "List all users with pagination",
+    "api_endpoint": "/api/v1/users",
+    "http_method": "GET",
+    "input_data": {
+      "page": 1,
+      "limit": 50
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "users array + pagination meta"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required"
+  },
+  {
+    "test_case_id": "USR-P-005",
+    "description": "Delete user account",
+    "api_endpoint": "/api/v1/users/{userId}",
+    "http_method": "DELETE",
+    "input_data": {
+      "userId": "550e8400-e29b-41d4-a716-446655440000"
+    },
+    "expected_output": {
+      "status_code": 204,
+      "message": "No Content"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "Auth token, user exists"
+  },
+  {
+    "test_case_id": "USR-P-006",
+    "description": "Bulk create users",
+    "api_endpoint": "/api/v1/users/bulk",
+    "http_method": "POST",
+    "input_data": [
+      {
+        "username": "u1",
+        "email": "e1@example.com"
+      },
+      {
+        "username": "u2",
+        "email": "e2@example.com"
+      }
+    ],
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "array of IDs"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid bulk data"
+  },
+  {
+    "test_case_id": "USR-P-007",
+    "description": "Search users by criteria",
+    "api_endpoint": "/api/v1/users/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "john",
+      "role": "admin"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "filtered users"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required"
+  },
+  {
+    "test_case_id": "USR-P-008",
+    "description": "Export users to CSV",
+    "api_endpoint": "/api/v1/users/export",
+    "http_method": "GET",
+    "input_data": {
+      "format": "csv"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "CSV file"
+    },
+    "risk_level": "LOW",
+    "priority": "LOW",
+    "pre_conditions": "Auth required"
+  }
+]

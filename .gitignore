@@ -1,0 +1,68 @@
+# ─── Node.js ──────────────────────────────────────────────────
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+.pnp
+.pnp.js
+
+# ─── React / CRA Build ────────────────────────────────────────
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# ─── Backend ─────────────────────────────────────────────────
+backend/uploads/
+backend/test_history.db
+backend/.env
+
+# ─── Environment variables ────────────────────────────────────
+.env
+.env.local
+.env.*.local
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+*.pyc
+*.pyo
+
+# ─── ML / Data artifacts ─────────────────────────────────────
+ml_scripts/models/
+ml_scripts/data/
+ml/models/
+data/
+test_datasets/
+*.csv~
+*.pkl
+*.joblib
+
+# ─── Generated Output ────────────────────────────────────────
+api_test_cases/
+test_output.pdf
+PROJECT_DETAILS.txt
+
+# ─── Dev tools / Test scripts ─────────────────────────────────
+dev-tools/
+model_training_checklist.txt
+
+# ─── OS / Editor ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.user
+walkthrough.md
+
+# ─── Logs ────────────────────────────────────────────────────
+*.log
+logs/

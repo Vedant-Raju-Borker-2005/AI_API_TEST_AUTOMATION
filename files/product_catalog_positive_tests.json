@@ -1,0 +1,57 @@
+[
+  {
+    "test_case_id": "PROD-P-001",
+    "description": "Get all products",
+    "api_endpoint": "/api/v1/products",
+    "http_method": "GET",
+    "input_data": {
+      "limit": 50,
+      "offset": 0
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "products array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Products exist"
+  },
+  {
+    "test_case_id": "PROD-P-002",
+    "description": "Create product",
+    "api_endpoint": "/api/v1/products",
+    "http_method": "POST",
+    "input_data": {
+      "name": "Laptop",
+      "price": 999.99,
+      "stock": 50
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "product_id"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Admin auth"
+  },
+  {
+    "test_case_id": "PROD-P-003",
+    "description": "Update product inventory",
+    "api_endpoint": "/api/v1/products/{productId}",
+    "http_method": "PUT",
+    "input_data": {
+      "price": 899.99,
+      "stock": 30
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "updated object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Product exists"
+  }
+]

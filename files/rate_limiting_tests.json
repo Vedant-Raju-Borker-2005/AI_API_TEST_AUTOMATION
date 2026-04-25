@@ -1,0 +1,56 @@
+[
+  {
+    "test_case_id": "RATE-001",
+    "description": "Normal request within rate limit",
+    "api_endpoint": "/api/v1/data",
+    "http_method": "GET",
+    "input_data": {
+      "scenario": "standard request"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "rate limit headers present"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid auth"
+  },
+  {
+    "test_case_id": "RATE-002",
+    "description": "Rate limit exceeded",
+    "api_endpoint": "/api/v1/data",
+    "http_method": "GET",
+    "input_data": {
+      "scenario": "1000+ rapid requests from same IP"
+    },
+    "expected_output": {
+      "status_code": 429,
+      "message": "Too Many Requests",
+      "response": "Retry-After header"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "MEDIUM",
+    "pre_conditions": "Rate limit check"
+  },
+  {
+    "test_case_id": "RATE-003",
+    "description": "CORS preflight request",
+    "api_endpoint": "/api/v1/data",
+    "http_method": "OPTIONS",
+    "input_data": {
+      "headers": {
+        "Origin": "https://app.example.com",
+        "Access-Control-Request-Method": "POST"
+      }
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "CORS response headers"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "CORS enabled"
+  }
+]

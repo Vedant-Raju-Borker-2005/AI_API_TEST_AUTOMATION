@@ -1,0 +1,106 @@
+[
+  {
+    "test_case_id": "FILE-P-001",
+    "description": "Upload PDF file",
+    "api_endpoint": "/api/v1/files/upload",
+    "http_method": "POST",
+    "input_data": {
+      "filename": "doc.pdf",
+      "size_mb": 2
+    },
+    "expected_output": {
+      "status_code": 201,
+      "message": "Created",
+      "response": "file_id + url"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid auth, file type"
+  },
+  {
+    "test_case_id": "FILE-P-002",
+    "description": "Download existing file",
+    "api_endpoint": "/api/v1/files/{fileId}/download",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "file_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "file contents + correct headers"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists"
+  },
+  {
+    "test_case_id": "FILE-P-003",
+    "description": "Get file metadata",
+    "api_endpoint": "/api/v1/files/{fileId}",
+    "http_method": "GET",
+    "input_data": {
+      "file_id": "file_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "metadata object"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists"
+  },
+  {
+    "test_case_id": "FILE-P-004",
+    "description": "List user files",
+    "api_endpoint": "/api/v1/files",
+    "http_method": "GET",
+    "input_data": {
+      "limit": 50,
+      "offset": 0
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "files array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Auth required"
+  },
+  {
+    "test_case_id": "FILE-P-005",
+    "description": "Delete file",
+    "api_endpoint": "/api/v1/files/{fileId}",
+    "http_method": "DELETE",
+    "input_data": {
+      "file_id": "file_123"
+    },
+    "expected_output": {
+      "status_code": 204,
+      "message": "No Content"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists, auth check"
+  },
+  {
+    "test_case_id": "FILE-P-006",
+    "description": "Share file",
+    "api_endpoint": "/api/v1/files/{fileId}/share",
+    "http_method": "POST",
+    "input_data": {
+      "file_id": "file_123",
+      "email": "user@example.com"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "share_link"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "File exists, sharing enabled"
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "test_case_id": "AUTH-P-001",
+    "description": "Login with valid credentials",
+    "api_endpoint": "/api/v1/auth/login",
+    "http_method": "POST",
+    "input_data": {
+      "email": "user@example.com",
+      "password": "Secure1!"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": {
+        "access_token": "<jwt>",
+        "refresh_token": "<jwt>"
+      }
+    },
+    "risk_level": "LOW",
+    "priority": "CRITICAL",
+    "pre_conditions": "Active user exists"
+  },
+  {
+    "test_case_id": "AUTH-P-002",
+    "description": "Refresh token - Valid",
+    "api_endpoint": "/api/v1/auth/refresh",
+    "http_method": "POST",
+    "input_data": {
+      "refresh_token": "eyJhbGc..."
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "new access_token"
+    },
+    "risk_level": "LOW",
+    "priority": "HIGH",
+    "pre_conditions": "Valid refresh token"
+  },
+  {
+    "test_case_id": "AUTH-P-003",
+    "description": "Verify token - Valid",
+    "api_endpoint": "/api/v1/auth/verify",
+    "http_method": "POST",
+    "input_data": {
+      "access_token": "eyJhbGc..."
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "user_id + valid"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid token"
+  },
+  {
+    "test_case_id": "AUTH-P-004",
+    "description": "Logout - Valid session",
+    "api_endpoint": "/api/v1/auth/logout",
+    "http_method": "POST",
+    "input_data": {
+      "access_token": "eyJhbGc..."
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "Logged out"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid token"
+  },
+  {
+    "test_case_id": "AUTH-P-005",
+    "description": "OAuth2 - Valid auth code",
+    "api_endpoint": "/api/v1/auth/oauth/callback",
+    "http_method": "POST",
+    "input_data": {
+      "code": "auth_xxx",
+      "client_id": "client_123"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "tokens + user"
+    },
+    "risk_level": "LOW",
+    "priority": "HIGH",
+    "pre_conditions": "Valid OAuth provider"
+  },
+  {
+    "test_case_id": "AUTH-P-006",
+    "description": "2FA - Valid code",
+    "api_endpoint": "/api/v1/auth/verify-2fa",
+    "http_method": "POST",
+    "input_data": {
+      "user_id": "usr_123",
+      "2fa_code": "123456"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "access_token"
+    },
+    "risk_level": "MEDIUM",
+    "priority": "HIGH",
+    "pre_conditions": "2FA enabled, valid code"
+  }
+]

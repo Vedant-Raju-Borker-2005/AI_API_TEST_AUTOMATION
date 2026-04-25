@@ -1,0 +1,74 @@
+[
+  {
+    "test_case_id": "SEARCH-P-001",
+    "description": "Basic search query",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "results array"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Database ready"
+  },
+  {
+    "test_case_id": "SEARCH-P-002",
+    "description": "Search with filters",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop",
+      "category": "electronics"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "filtered results"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid filters"
+  },
+  {
+    "test_case_id": "SEARCH-P-003",
+    "description": "Search with sort",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop",
+      "sort": "-price"
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "sorted results"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid sort field"
+  },
+  {
+    "test_case_id": "SEARCH-P-004",
+    "description": "Pagination search",
+    "api_endpoint": "/api/v1/search",
+    "http_method": "GET",
+    "input_data": {
+      "q": "laptop",
+      "page": 2,
+      "limit": 20
+    },
+    "expected_output": {
+      "status_code": 200,
+      "message": "OK",
+      "response": "paginated results"
+    },
+    "risk_level": "LOW",
+    "priority": "MEDIUM",
+    "pre_conditions": "Valid pagination"
+  }
+]
